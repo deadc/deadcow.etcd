@@ -1,0 +1,58 @@
+---
+  file:
+    /opt/etcd-v3.3.8-linux-amd64:
+      exists: true
+      mode: "0755"
+      owner: etcd
+      group: etcd
+      filetype: directory
+    /opt/etcd-v3.3.8-linux-amd64/etcd:
+      exists: true
+      mode: "0755"
+      owner: etcd
+      group: etcd
+      filetype: file
+    /opt/etcd-v3.3.8-linux-amd64/etcdctl:
+      exists: true
+      mode: "0755"
+      owner: etcd
+      group: etcd
+      filetype: file
+    /usr/bin/etcd:
+      exists: true
+      mode: "0777"
+      owner: root
+      group: root
+      linked-to: /opt/etcd-v3.3.8-linux-amd64/etcd
+      filetype: symlink
+      contains: []
+    /usr/bin/etcdctl:
+      exists: true
+      mode: "0777"
+      owner: root
+      group: root
+      linked-to: /opt/etcd-v3.3.8-linux-amd64/etcdctl
+      filetype: symlink
+    /etc/etcd:
+      exists: true
+      mode: "0755"
+      owner: root
+      group: root
+      filetype: directory
+    /etc/etcd/etcd.conf:
+      exists: true
+      mode: "0644"
+      owner: root
+      group: root
+      filetype: file
+    /etc/systemd/system/etcd.service: 
+      exists: true
+      mode: "0644"
+      owner: root
+      group: root
+      filetype: file
+
+  service:
+    etcd:
+      enabled: yes
+      running: yes

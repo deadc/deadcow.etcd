@@ -1,0 +1,77 @@
+---
+# tasks file for deadcow.etcd
+
+  - name: Download & unarchive etcd {{ etcd_version }}
+    unarchive:
+      src: "{{ etcd_download_url }}"
+      dest: "{{ etcd_install_path }}"
+      creates: "{{ etcd_install_path }}/etcd-{{ etcd_version }}-linux-amd64/etcd"
+      remote_src: true
+    tags:
+      - etcd
+
+  - name: Create group for etcd
+    group:
+      name: "{{ etcd_group }}"
+    tags:
+      -  etcd
+
+  - name: Create user for etcd
+    user:
+      name: "{{ etcd_user }}"
+      group: "{{ etcd_group }}"
+      home: "{{ etcd_data_dir }}"
+      createhome: false
+      shell: /bin/bash
+    tags:
+      - etcd
+
+  - name: Create symbolic links for etcd
+    file:
+      src: "{{ etcd_install_path }}/etcd-{{ etcd_version }}-linux-amd64/{{ item }}"
+      dest: "/usr/bin/{{ item }}"
+      state: link
+    with_items:
+      - etcd
+      - etcdctl
+    tags:
+      - etcd
+
+  - name: Create data folder for etcd
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ etcd_user }}"
+      group: "{{ etcd_group }}"
+    with_items:
+      - "{{ etcd_data_dir }}"
+    tags:
+      - etcd
+
+  - name: Create /etc/etcd && /etc/etcd/ssl folder
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - /etc/etcd
+      - /etc/etcd/ssl
+    tags:
+      - etcd
+
+  - name: Create /etc/etcd/etcd.conf file
+    template:
+      src: etcd.conf.j2
+      dest: /etc/etcd/etcd.conf
+    notify:
+      - restart etcd
+    tags:
+      - etcd
+
+  - name: Copy etcd.service to /etc/systemd/system/etcd.service
+    template:
+      src: etcd.service.j2
+      dest: /etc/systemd/system/etcd.service
+    notify:
+      - restart etcd
+    tags:
+      - etcd

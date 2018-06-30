@@ -1,0 +1,20 @@
+---
+# defaults file for deadcow.etcd
+
+etcd_version: v3.3.8
+etcd_download_url: https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+
+etcd_user: etcd
+etcd_group: "{{ etcd_user }}"
+etcd_install_path: /opt
+etcd_data_dir: /var/lib/etcd
+etcd_url_schema: "{{ etcd_ssl | ternary('https','http') }}"
+
+etcd_cluster: False
+etcd_cluster_token: 82d47a30529dae4c9f8988fa36cba5d8
+etcd_cluster_iface: eth1
+
+etcd_ssl: False
+etcd_ssl_cafile: /etc/etcd/ssl/cafile.crt
+etcd_ssl_crtfile: /etc/etcd/ssl/cert.crt
+etcd_ssl_keyfile: /etc/etcd/ssl/cert.key

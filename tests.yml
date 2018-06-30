@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    etcd_version: v3.3.8
+
+    etcd_cluster_iface: lo
+    etcd_cluster: False
+    etcd_ssl: False
+
+
+  roles:
+    - test
