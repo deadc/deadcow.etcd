@@ -1,6 +1,8 @@
 etcd
 =========
 
+[![Travis-CI](https://travis-ci.org/deadc/deadcow.etcd.svg?branch=master)](https://travis-ci.org/deadc/deadcow.etcd)
+
 Um distribuido e confiavel sistema de chave-valor para dados criticos de sistemas.
 
 Requerimentos
